@@ -9,6 +9,12 @@ use App\Handlers\ImageUploadHandler;
 
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        // middleware except 设定指定动作不使用 Auth 中间件过滤
+        // 相反的 only 只过滤指定动作
+        $this->middleware('auth', ['expect' => ['show']]);
+    }
     public function show(User $user)
     {
         return view('users.show', compact('user'));
@@ -16,6 +22,7 @@ class UsersController extends Controller
 
     public function edit(User $user)
     {
+        $this->authorize('update', $user);
         return view('users.edit', compact('user'));
     }
 
@@ -25,6 +32,7 @@ class UsersController extends Controller
      */
     public function update(UserRequest $request, ImageUploadHandler $uploader, User $user)
     {
+        $this->authorize('update', $user);
         $data = $request->all();
 
         if ($request->avatar) {
