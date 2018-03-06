@@ -6,6 +6,41 @@ class Topic extends Model
 {
     protected $fillable = ['title', 'body', 'user_id', 'category_id', 'reply_count', 'view_count', 'last_reply_user_id', 'order', 'excerpt', 'slug'];
 
+    /**
+     * scope
+     * 这里使用了 Laravel 本地作用域。本地作用域允许我们定义通用的约束集合以便在应用中利用
+     * 要定义这样的一个作用域，只需简单在对应 Eloquent模型方法前加上一个 scope 前缀，作用域总是返回 查询构建器
+     * 一旦定义了作用域，则可以在查询模型时调用作用域方法。在进行调用时不需要加上scope前缀。
+     * 如调用 scopeWithOrder，使用 $topic->withOrder(); 即可
+     */
+
+    public function scopeWithOrder($query, $order)
+    {
+        switch($order){
+            case 'recent':
+                $query = $this->recent();
+                break;
+            default:
+                $query = $this->recentReplied();
+                break;
+        }
+        // 预加载 防止 N+1 问题
+        return $query->with('user', 'category');
+    }
+
+    public function scopeRecentReplied($query)
+    {
+        // 当话题有新回复时，我们将编写逻辑来更新话题模型的 reply_count 属性
+        // 此时会自动触发框架对数据模型 updated_at 时间戳的更新
+        return $query->orderBy('updated_at', 'desc');
+    }
+
+    public function scopeRecent($query)
+    {
+        // 按照创建时间排序
+        return $query->orderBy('created_at', 'desc');
+    }
+
     // 做了关联设定之后，可以通过 $topic->category 获取话题的分类
     public function category()
     {
