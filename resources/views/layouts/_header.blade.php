@@ -19,7 +19,26 @@
         <div class="collapse navbar-collapse" id="app-navbar-collapse">
             <!-- Left Side Of Navbar -->
             <ul class="nav navbar-nav">
-
+                {{-- active_class 函数 --}}
+                <?php
+                 /* hieu-le/active:~3.5 扩展
+                  * function active_class($condition, $activeClass = 'active', $inactiveClass = '')
+                  * 如果传参满足指定条件($condition)，此函数将返回 $activeClass，否则返回 $inactiveClass
+                  * 此扩展提供了一批函数让我们更方便的进行 $condition 判断
+                  *
+                  * if_route() 判断当前对应的路由是否是指定的路由
+                  * if_route_param() 判断当前的url有无指定的路由参数
+                  * if_query() 判断指定的GET变量是否符合设置的值
+                  * if_uri() 判断当前的url是否满足指定的url
+                  * if_route_pattern() 判断当前的路由是否包含指定的字符
+                  * if_uri_pattern() 判断当前的url是否含有指定的字符
+                  */
+                 ?>
+                <li class="{{ active_class(if_route('topics.index')) }}"><a href="{{ route('topics.index') }}">话题</a></li>
+                <li class="{{ active_class(if_route('categories.show') && if_route_param('category', 1)) }}"><a href="{{ route('categories.show', 1) }}">分享</a></li>
+                <li class="{{ active_class(if_route('categories.show') && if_route_param('category', 2)) }}"><a href="{{ route('categories.show', 2) }}">教程</a></li>
+                <li class="{{ active_class(if_route('categories.show') && if_route_param('category', 3)) }}"><a href="{{ route('categories.show', 3) }}">问答</a></li>
+                <li class="{{ active_class(if_route('categories.show') && if_route_param('category', 4)) }}"><a href="{{ route('categories.show', 4) }}">公告</a></li>
             </ul>
 
             <!-- Right Side Of Navbar -->
