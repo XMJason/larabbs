@@ -4,7 +4,17 @@ namespace App\Models;
 
 class Topic extends Model
 {
-    protected $fillable = ['title', 'body', 'user_id', 'category_id', 'reply_count', 'view_count', 'last_reply_user_id', 'order', 'excerpt', 'slug'];
+    // 生成模型时将所有字段都罗列出来，这是很危险的。
+    // 在开发数据库醋的 CRUD 功能时，都要慎重地对 $fillable 属性进行定制。
+    /**
+     * 在当前的情况下，以下字段将禁止用户修改
+     * user_id 文章的作者
+     * last_reply_user_id 最后回复的用户ID
+     * order 文章排序，将会是管理员专属的功能
+     * reply_count 回复数量，程序维护
+     * view_count 查看数量，程序维护
+     */
+    protected $fillable = ['title', 'body', 'category_id', 'excerpt', 'slug'];
 
     /**
      * scope

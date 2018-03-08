@@ -9,13 +9,9 @@ use App\Models\Topic;
 
 class TopicObserver
 {
-    public function creating(Topic $topic)
+    public function saving(Topic $topic)
     {
-        //
-    }
-
-    public function updating(Topic $topic)
-    {
-        //
+        // make_excerpt 是自定义的辅助方法
+        $topic->excerpt = make_excerpt($topic->body);
     }
 }
