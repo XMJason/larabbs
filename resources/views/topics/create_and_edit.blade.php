@@ -71,6 +71,14 @@
         $(document).ready(function(){
             var editor = new Simditor({
                 textarea: $('#editor'),
+                upload: {
+                    url: '{{ route('topics.upload_image')}}',
+                    params: { _token: '{{ csrf_token() }}'}, // POST 请求必须带防止 CSRF 跨站请求伪造的 _token 参数
+                    fileKey: 'upload_file', // 服务器端获取图片的键值，我们设置为upload_file
+                    connectionsCount: 3, // 最多只能同时上传3张图片
+                    leaveConfirm: '文件上传中，关闭此页面将取消上传', // 上传过程中，用户关闭页面时的提醒
+                },
+                pasteImage: true, // 是否支持图片黏贴上传，
             });
         });
     </script>
