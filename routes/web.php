@@ -40,7 +40,13 @@ Route::resource('users', 'UsersController', ['only' => ['show', 'update', 'edit'
 // 处理 edit 页面提交的更改
 // Route::patch('/users/{user}', 'UsersController@update')->name('users.update');
 
-Route::resource('topics', 'TopicsController', ['only' => ['index', 'show', 'create', 'store', 'update', 'edit', 'destroy']]);
+Route::resource('topics', 'TopicsController', ['only' => ['index', 'create', 'store', 'update', 'edit', 'destroy']]);
+// URI 参数 topic 是【隐性路由醋绑定】的提示，将会自动注入ID对应的话题实体。
+// URI 最后一个参数表达式 {slug?}，? 意味着参数可靠，这是为了兼容我们数据库中 Slug 为空的话题数据。
+// 这种写法可以同时兼容以下两种链接
+// http://larabbs.aicjs.com/topics/108
+// http://larabbs.aicjs.com/topics/108?slug-fan-yi-ce-shi
+Route::get('topics/{topic}/{slug?}', 'TopicsController@show')->name('topics.show');
 
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 

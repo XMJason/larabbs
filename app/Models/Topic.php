@@ -64,4 +64,10 @@ class Topic extends Model
         // 一个话题拥有一个作者
         return $this->belongsTo(User::class);
     }
+
+    // 参数 $param 允许附加 URL 参数的设定
+    public function link($param = [])
+    {
+        return route('topics.show', array_merge([$this->id, $this->slug], $param));
+    }
 }
