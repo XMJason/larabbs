@@ -65,6 +65,12 @@ class Topic extends Model
         return $this->belongsTo(User::class);
     }
 
+    // 一个话题有多个回复
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
     // 参数 $param 允许附加 URL 参数的设定
     public function link($param = [])
     {
