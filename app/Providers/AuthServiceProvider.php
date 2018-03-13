@@ -9,7 +9,7 @@ class AuthServiceProvider extends ServiceProvider
 {
     /**
      * The policy mappings for the application.
-     * 
+     *
      * @var array
      */
     protected $policies = [
@@ -28,6 +28,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        \Horizon::auth(function ($request) {
+            return \Auth::user()->hasRole('Founder');
+        });
     }
 }
