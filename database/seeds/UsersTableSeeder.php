@@ -44,5 +44,16 @@ class UsersTableSeeder extends Seeder
         $user->email = 'zpj1750@163.com';
         $user->avatar = 'https://fsdhubcdn.phphub.org/uploads/images/201710/14/1/ZqM7iaP4CR.png?imageView2/1/w/200/h/200';
         $user->save();
+
+        // assignRole 在 HasRoles 中定义
+        // 初始化用户角色，将1号用户指派为【站长】
+        $user->assignRole('Founder');
+
+        // assignRole 可以为用户设置多个角色
+        // $user->assignRole('write', 'admin'); 或 $user->assignRole(['write', 'admin']);
+
+        // 将2号用户指派为【管理员】
+        $user = User::find(2);
+        $user->assignRole('Maintainer');
     }
 }
