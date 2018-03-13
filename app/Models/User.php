@@ -10,7 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasRoles;
-    
+
     // 默认的 User 模型中使用了 trait —— Notifiable，它包含着一个可以用来发通知的方法 notify()
     // 此方法接收一个通知实例做参数。
     use Notifiable {
@@ -69,5 +69,25 @@ class User extends Authenticatable
         $this->notification_count = 0;
         $this->save();
         $this->unreadNotifications->markAsRead();
+    }
+
+    public function setPasswordAttribute($value)
+    {
+        // 如果值的长度等于60，即认为已经做过加密的情况
+        if (strlen($value) != 60) {
+            // 不等于60，做密码加密处理
+            $value = bcrypt($value);
+        }
+        $this->attributes['password'] = $value;
+    }
+
+    public function setAvatarAttribute($path)
+    {
+        // 如果不是 http 子串开头，那就是从后台上传的，需要补全URL
+        if (! starts_with($path, 'http')) {
+            // 拼接完整的URL
+            $path = config('app.url') . '/uploads/images/avatars/'.$path;
+        }
+        $this->attributes['avatar'] = $path;
     }
 }
