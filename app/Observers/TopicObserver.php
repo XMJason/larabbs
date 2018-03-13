@@ -36,4 +36,11 @@ class TopicObserver
             dispatch(new TranslateSlug($topic));
         }
     }
+
+    public function deleted(Topic $topic)
+    {
+        // 监控话题删除事件，删除该话题所有的回复。
+        // 要模型监听器中，数据库操作需要避免再次Elequent事件，这里使用 DB 类进行操作
+        \DB::table('replies')->where('topic_id', $topic->id)->delete();
+    }
 }
