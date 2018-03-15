@@ -45,7 +45,7 @@ return array(
         '内容管理' => [
             'categories', 'topics', 'replies',
         ],
-        '站点管理' => ['settings.site'],
+        '站点管理' => ['settings.site', 'links'],
     ],
 
     /*
