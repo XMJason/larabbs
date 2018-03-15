@@ -55,6 +55,9 @@ return array(
      * `true` 为通过，`false` 会将页面重定向到 `login_path` 选项定义的 URL 中。
      */
     'permission' => function () {
+        // permission 控制的是进入后台的权限
+        // 模型配置信息里 permission 控制的是模型页面的访问权限，如果模型权限未通过，后台菜单项都会被隐藏
+
         // 只要是能管理内容的用户，就允许访问后台
         return Auth::check() && Auth::user()->can('manage_contents');
     },
@@ -71,13 +74,13 @@ return array(
     'dashboard_view' => '',
 
     // 用来作为后台主页的菜单条目，由 `use_dashboard` 选项决定，菜单指的是 `menu` 选项
-    'home_page' => 'users',
+    'home_page' => 'topics',
 
     // 右上角『返回主站』按钮的链接
     'back_to_site_path' => '/',
 
     // 当选项 `permission` 权限检测不通过时，会重定向用户到此处设置的路径
-    'login_path' => 'login',
+    'login_path' => 'permission-denied',
 
     // 允许在登录成功后使用 Session::get('redirect') 将用户重定向到原本想要访问的后台页面
     'login_redirect_key' => 'redirect',
