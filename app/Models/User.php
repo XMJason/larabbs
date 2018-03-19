@@ -9,8 +9,9 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
+    use Traits\LastActivedAtHelper;
     use Traits\ActiveUserHelper;
-    
+
     use HasRoles;
 
     // 默认的 User 模型中使用了 trait —— Notifiable，它包含着一个可以用来发通知的方法 notify()
