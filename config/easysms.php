@@ -3,9 +3,9 @@
 return [
     // HTTP 请求的超时时间（秒）
     'timeout' => 5.0,
-    'access_key_id' => env('ALIYUN_ACCESS_KEY_ID'),
-    'access_key_secret' => env('ALIYUN_ACCESS_KEY_SECRET'),
-    'sign_name' => env('ALIYUN_SIGN_NAME'),
+    // 'access_key_id' => env('ALIYUN_ACCESS_KEY_ID'),
+    // 'access_key_secret' => env('ALIYUN_ACCESS_KEY_SECRET'),
+    // 'sign_name' => env('ALIYUN_SIGN_NAME'),
 
     // 默认发送配置
     'default' => [
@@ -21,6 +21,11 @@ return [
     'gateways' => [
         'errorlog' => [
             'file' => '/tmp/easy-sms.log',
+        ],
+        'aliyun' => [
+            'access_key_id' => env('ALIYUN_ACCESS_KEY_ID'),
+            'access_key_secret' => env('ALIYUN_ACCESS_KEY_SECRET'),
+            'sign_name' => env('ALIYUN_SIGN_NAME'),
         ],
     ],
 ];

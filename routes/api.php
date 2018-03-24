@@ -13,6 +13,12 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+$api = app('Dingo\Api\Routing\Router');
+
+$api->version('v1', [
+    // 增加参数，namespace，使 v1 版本的路由都会指向 App\Http\Controllers\Api
+    'namespace' => 'App\Http\Controllers\Api'
+], function($api) {
+    // 短信验证码接口
+    $api->post('verificationCodes', 'verificationCodesController@store')->name('api.verificationCodes.store');
 });
