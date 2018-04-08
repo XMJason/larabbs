@@ -17,7 +17,9 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', [
     // 增加参数，namespace，使 v1 版本的路由都会指向 App\Http\Controllers\Api
-    'namespace' => 'App\Http\Controllers\Api'
+    'namespace' => 'App\Http\Controllers\Api',
+    // 增加中间件serializer，参数为 array，返回的数据结构为ArraySerializer格式（默认是DataArraySerializer）
+    'middleware' => 'serializer:array'
 ], function($api) {
 
     $api->group([
@@ -43,5 +45,20 @@ $api->version('v1', [
         // 删除 token
         $api->delete('authorizations/current', 'AuthorizationsController@destory')->name('api.authorizations.destory');
         
+    });
+
+
+    $api->group([
+        'middleware' => 'api.throttle',
+        'limit' => config('api.rate_limits.access.limit'),
+        'expires' => config('api.rate_limits.access.expires'),
+    ], function ($api) {
+        // 游客可以访问的接口
+
+        // 需要 token 验证的接口
+        $api->group(['middleware' => 'api.auth'], function ($api) {
+            // 当前登录用户令牌
+            $api->get('user', 'UsersController@me')->name('api.user.show');
+        });
     });
 });
