@@ -6,6 +6,7 @@ use App\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Requests\Api\UserRequest;
+use App\Models\Image;
 
 class UsersController extends Controller
 {
@@ -52,5 +53,27 @@ class UsersController extends Controller
         // $this->user() 等同于 \Auth:;guard('api')->user()
         // 我们返回的是一个单一资源，所以使用 $this->response->item，第一个参数是模型实例，第二个参数是刚刚创建的 transformer
         return $this->response->item($this->user(), new UserTransformer());
+    }
+
+    /**
+     * @param UserRequest $request
+     *
+     * 修改用户资料
+     */
+    public function update(UserRequest $request)
+    {
+        $user = $this->user();
+
+        $attributes = $request->only(['name', 'email', 'introduction']);
+
+        if ($request->avatar_image_id) {
+            $image = Image::find($request->avatar_image_id);
+
+            $attributes['avatar'] = $image->path;
+        }
+
+        $user->update($attributes);
+
+        return $this->response->item($user, new UserTransformer());
     }
 }
