@@ -54,7 +54,7 @@ $api->version('v1', [
         'expires' => config('api.rate_limits.access.expires'),
     ], function ($api) {
         // 游客可以访问的接口
-        // 游客可以访问的接口
+        // 分类列表接口
         $api->get('categories', 'CategoriesController@index')->name('api.categories.index');
 
         // 需要 token 验证的接口
@@ -70,6 +70,9 @@ $api->version('v1', [
 
             // 图片资源
             $api->post('images', 'ImagesController@store')->name('api.images.store');
+
+            // 发布话题
+            $api->post('topics', 'TopicsController@store')->name('api.topics.store');
         });
     });
 });
