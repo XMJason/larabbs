@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class TopicsController extends Controller
 {
+    /**
+     * @param TopicRequest $request
+     * @param Topic $topic
+     *
+     * @return 发布的话题的具体内容
+     */
     public function store(TopicRequest $request, Topic $topic)
     {
         $topic->fill($request->all());
@@ -17,4 +23,13 @@ class TopicsController extends Controller
 
         return $this->response->item($topic, new TopicTransformer())->setStatusCode(201);
     }
+
+    public function update(TopicRequest $request, Topic $topic)
+    {
+        $this->authorize('update', $topic);
+
+        $topic->update($request->all());
+        return $this->response->item($topic, new TopicTransformer());
+    }
+
 }

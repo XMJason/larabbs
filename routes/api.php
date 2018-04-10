@@ -19,7 +19,7 @@ $api->version('v1', [
     // 增加参数，namespace，使 v1 版本的路由都会指向 App\Http\Controllers\Api
     'namespace' => 'App\Http\Controllers\Api',
     // 增加中间件serializer，参数为 array，返回的数据结构为ArraySerializer格式（默认是DataArraySerializer）
-    'middleware' => 'serializer:array'
+    'middleware' => ['serializer:array', 'bindings']
 ], function($api) {
 
     $api->group([
@@ -73,6 +73,8 @@ $api->version('v1', [
 
             // 发布话题
             $api->post('topics', 'TopicsController@store')->name('api.topics.store');
+            // 修改话题
+            $api->patch('topics/{topic}', 'TopicsController@update')->name('api.topics.update');
         });
     });
 });
