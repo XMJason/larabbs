@@ -25,6 +25,7 @@ class TopicsController extends Controller
         return $this->response->item($topic, new TopicTransformer())->setStatusCode(201);
     }
 
+    // 编辑话题
     public function update(TopicRequest $request, Topic $topic)
     {
         $this->authorize('update', $topic);
@@ -33,6 +34,7 @@ class TopicsController extends Controller
         return $this->response->item($topic, new TopicTransformer());
     }
 
+    // 删除话题
     public function destory(Topic $topic)
     {
         $this->authorize('update', $topic);
@@ -41,6 +43,7 @@ class TopicsController extends Controller
         return $this->response->noContent();
     }
 
+    // 话题列表
     public function index(Request $request, Topic $topic)
     {
         $query = $topic->query();
@@ -64,6 +67,13 @@ class TopicsController extends Controller
         return $this->response->paginator($topics, new TopicTransformer());
     }
 
+    // 话题详情
+    public function show(Topic $topic)
+    {
+        return $this->response->item($topic, new TopicTransformer());
+    }
+
+    // 某个用户发布的话题列表
     public function userIndex(User $user, Request $request)
     {
         $topics = $user->topics()->recent()->paginate(20);
