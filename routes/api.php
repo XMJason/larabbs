@@ -56,6 +56,12 @@ $api->version('v1', [
         // 游客可以访问的接口
         // 分类列表接口
         $api->get('categories', 'CategoriesController@index')->name('api.categories.index');
+        // 话题列表
+        $api->get('topics', 'TopicsController@index')->name('api.topics.index');
+
+        // 获取某个用户自己发布的所有话题列表
+        $api->get('users/{user}/topics', 'TopicsController@userIndex')->name('api.users.topics.index');
+
 
         // 需要 token 验证的接口
         $api->group(['middleware' => 'api.auth'], function ($api) {

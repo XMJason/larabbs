@@ -7,6 +7,9 @@ use League\Fractal\TransformerAbstract;
 
 class TopicTransformer extends TransformerAbstract
 {
+    // 可以理解为可以嵌套的额外资源有 user，category。
+    protected $availableIncludes = ['user', 'category'];
+
     public function transform(Topic $topic)
     {
         return [
@@ -23,5 +26,17 @@ class TopicTransformer extends TransformerAbstract
             'created_at' => $topic->created_at->toDateTimeString(),
             'updated_at' => $topic->updated_at->toDateTimeString(),
         ];
+    }
+
+    // 额外资源的获取，转换，通过 includeUser 和 includeCategory,
+    // availableIncludes 中的每一个参数都对应一个具体的方法，方法命名规则为 include+user, include+category 驼峰命名
+    public function includeUser(Topic $topic)
+    {
+        return $this->item($topic->user, new UserTransformer());
+    }
+
+    public function includeCategory(Topic $topic)
+    {
+        return $this->item($topic->category, new CategoryTransformer());
     }
 }
