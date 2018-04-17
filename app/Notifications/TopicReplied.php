@@ -38,7 +38,8 @@ class TopicReplied extends Notification implements ShouldQueue
     {
         // 开户通知的频道
         // 再开启 mail 频道，同时需要增加 toMail 方法
-        return ['database', 'mail'];
+        return ['database'];
+        // return ['database', 'mail'];
     }
 
     public function toDatabase($notifiable)
