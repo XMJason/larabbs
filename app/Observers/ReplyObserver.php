@@ -24,7 +24,7 @@ class ReplyObserver
         $reply->content = clean($reply->content, 'user_topic_body');
     }
 
-    public function deleted(Topic $topic)
+    public function deleted(Reply $reply)
     {
         // 删除回复时，话题的 reply_count 需要 -1
         $reply->topic->decrement('reply_count', 1);
