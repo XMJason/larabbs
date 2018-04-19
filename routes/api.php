@@ -63,6 +63,10 @@ $api->version('v1', [
 
         // 获取某个用户自己发布的所有话题列表
         $api->get('users/{user}/topics', 'TopicsController@userIndex')->name('api.users.topics.index');
+        // 话题回复列表
+        $api->get('topics/{topic}/replies', 'RepliesController@index')->name('api.topics.replies.index');
+        // 某个用户的回复列表
+        $api->get('users/{user}/replies', 'RepliesController@userIndex')->name('api.users.replies.index');
 
 
         // 需要 token 验证的接口
@@ -89,6 +93,8 @@ $api->version('v1', [
             $api->post('topics/{topic}/replies', 'RepliesController@store')->name('api.topics.replies.store');
             // 删除回复
             $api->delete('topics/{topic}/replies/{reply}', 'RepliesController@destroy')->name('api.topics.replies.destroy');
+            // 通知列表
+            $api->get('user/notifications', 'NotificationsController@index')->name('api.user.notifications.index');
 
         });
     });

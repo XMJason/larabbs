@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Models\Topic;
 use App\Models\Reply;
 use App\Http\Requests\Api\ReplyRequest;
+use App\Models\User;
 use App\Transformers\ReplyTransformer;
 
 class RepliesController extends Controller
@@ -19,6 +20,12 @@ class RepliesController extends Controller
         return $this->response->item($reply, new ReplyTransformer())->setStatusCode(201);
     }
 
+    public function index(Topic $topic)
+    {
+        $replies = $topic->replies()->paginate(20);
+        return $this->response->paginator($replies, new ReplyTransformer());
+    }
+
     public function destroy(Topic $topic, Reply $reply)
     {
         if ($reply->topic_id != $topic->id) {
@@ -29,5 +36,17 @@ class RepliesController extends Controller
         $reply->delete();
 
         return $this->response->noContent();
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return 具体用户的回复列表
+     *
+     */
+    public function userIndex(User $user)
+    {
+        $replies = $user->replies()->paginate(20);
+        return $this->response->paginator($replies, new ReplyTransformer());
     }
 }
