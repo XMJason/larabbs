@@ -20,6 +20,10 @@ class EventServiceProvider extends ServiceProvider
             // add your listeners (aka providers) here
             'SocialiteProviders\Weixin\WeixinExtendSocialite@handle'
         ],
+        // 当通知存入数据库后，也就是监听 eloquent.created:Illuminate\Notifications\DatabaseNotification 这个事件
+        'eloquent.created: Illuminate\Notifications\DatabaseNotification' => [
+            'App\Listeners\PushNotification',
+        ],
     ];
 
     /**
